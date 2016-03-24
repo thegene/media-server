@@ -1,0 +1,26 @@
+{
+  "name": "photo-server",
+  "version": "1.0.0",
+  "description": "A simple dev-server for photos",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/thegene/photo-server.git"
+  },
+  "author": "Eugene Westbrook",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/thegene/photo-server/issues"
+  },
+  "homepage": "https://github.com/thegene/photo-server",
+  "dependencies": {
+    "express": "^4.13.4"
+  },
+  "devDependencies": {
+    "mocha": "^2.4.5",
+    "supertest": "^1.2.0"
+  }
+}
