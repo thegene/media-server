@@ -1,58 +1,64 @@
 var request = require('supertest');
-var express = require('express');
 var path = require('path');
 var fs = require('fs');
-var app = require('../server');
+var app;
 
-context('Given there are no files in the media directory', function(){
-  it('will respond with 404', function(done){
-    request(app)
-      .get('/foo')
-      .expect(404, done);
-  });
-});
-
-context('Given there is a single file in the media directory', function(){
-  var fooFile = path.join(__dirname, '..', 'media', 'foo');
-
+context('Given a media server with directory specified', function(){
   before(function(){
-    fs.writeFile(fooFile, 'bar');
+    process.env['MEDIA_DIRECTORY'] = path.join(__dirname, 'media');
+    app = require('../server');
   });
 
-  after(function(){
-    fs.unlink(fooFile);
+  context('Given there are no files in the media directory', function(){
+    it('will respond with 404', function(done){
+      request(app)
+        .get('/foo')
+        .expect(404, done);
+    });
   });
 
-  it('will respond with a 200', function(done){
-    request(app)
-      .get('/foo')
-      .expect(200, 'bar', done)
-  });
-});
+  context('Given there is a single file in the media directory', function(){
+    var fooFile = path.join(__dirname, 'media', 'foo');
 
-context('Given there are tow files in the media directory', function(){
-  var fooFile = path.join(__dirname, '..', 'media', 'foo');
-  var farFile = path.join(__dirname, '..', 'media', 'far');
+    before(function(){
+      fs.writeFile(fooFile, 'bar');
+    });
 
-  before(function(){
-    fs.writeFile(fooFile, 'bar');
-    fs.writeFile(farFile, 'frump');
-  });
+    after(function(){
+      fs.unlink(fooFile);
+    });
 
-  after(function(){
-    fs.unlink(fooFile);
-    fs.unlink(farFile);
+    it('will respond with a 200', function(done){
+      request(app)
+        .get('/foo')
+        .expect(200, 'bar', done)
+    });
   });
 
-  it('will respond with a 200', function(done){
-    request(app)
-      .get('/far')
-      .expect(200, 'frump', done);
-  });
+  context('Given there are tow files in the media directory', function(){
+    var fooFile = path.join(__dirname, 'media', 'foo');
+    var farFile = path.join(__dirname, 'media', 'far');
+    
+    before(function(){
+      fs.writeFile(fooFile, 'bar');
+      fs.writeFile(farFile, 'frump');
+    });
 
-  it('will respond with a 200', function(done){
-    request(app)
-      .get('/foo')
-      .expect(200, 'bar', done);
+    after(function(){
+      fs.unlink(fooFile);
+      fs.unlink(farFile);
+    });
+
+    it('will respond with a 200', function(done){
+      request(app)
+        .get('/far')
+        .expect(200, 'frump', done);
+    });
+
+    it('will respond with a 200', function(done){
+      request(app)
+        .get('/foo')
+        .expect(200, 'bar', done);
+    });
   });
 });
