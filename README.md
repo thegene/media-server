@@ -13,4 +13,4 @@ By default, the media server uses the local `media` directory as its media direc
 Alternately you may specify MEDIA_DIRECTORY as an environment variable `MEDIA_DIRECTORY=/data/media node server` and the app will use that directory as your media source.
 
 ### Running as a Docker container
-This app is available as a docker container. All you need to do to run it is pull it down, and run it specifying a volume to mount to /data: `docker run -v /path/to/static/dir:/data thegene/media`
+This app is available as a docker container. All you need to do to run it is pull it down, and run it specifying a volume to mount to /data: `docker run -v /path/to/static/dir:/data -d -p 3000:3000 thegene/media`
